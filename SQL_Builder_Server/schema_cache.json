@@ -1,0 +1,820 @@
+{
+  "tables": [
+    {
+      "name": "accession",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "accession_path",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "source",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "accession_machine",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "scan_type",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "scan_site",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "birads4",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "breast_oncotype",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "breast_sln",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "glioma",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "lung",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "skin",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "skin_buttocks",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "reoriented",
+          "type": "tinyint",
+          "pk": false
+        },
+        {
+          "name": "new_lung",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "birads4",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "slide_id",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "breast_oncotype",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "slide_id",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "oncotype",
+          "type": "double",
+          "pk": false
+        },
+        {
+          "name": "oncotype_ER_RT_PCR",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "oncotype_PR_RT_PCR",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "oncotype_HER2_RT_PCR",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "tumor_size",
+          "type": "double",
+          "pk": false
+        },
+        {
+          "name": "grade",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "ER",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "PR",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "HER2_IHC",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "HER2_FISH",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "nodal_status",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "lymph_node_status_for_oncotypeDX",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "proliferation_Ki_67_low",
+          "type": "double",
+          "pk": false
+        },
+        {
+          "name": "proliferation_Ki_67_high",
+          "type": "double",
+          "pk": false
+        },
+        {
+          "name": "neoadjuvant",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "breast_sln",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "slide_id",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "diagnosis",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "malignancy",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "cases",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "age",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "sex",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "order_date",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "datasource_parameter",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "data_type",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "data_point",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "glioma",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "slide_id",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "IDH",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "IDH_immunostain",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "AX",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "MGMT",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "AZ_tested_slide",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "link_case_accession",
+      "columns": [
+        {
+          "name": "case_id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "accession_id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "lung",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "slide_id",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "IHC_case_id",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "NGS_case_id",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "EGFR_NGS",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "FISH_ALK",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "ALK_NGS",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "ROS1_IHC",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "ROS1_NGS",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "ROS_variant",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "tumor_content",
+          "type": "double",
+          "pk": false
+        },
+        {
+          "name": "necrosis",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "stroma",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "mucin_production",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "PDL1_low",
+          "type": "double",
+          "pk": false
+        },
+        {
+          "name": "PDL1_high",
+          "type": "double",
+          "pk": false
+        },
+        {
+          "name": "TTF1",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "new_lung",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "slide_id",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "sigmoid",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "slide_id",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "skin",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "slide_id",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "sun_damage",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "skin_buttocks",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "slide_id",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "site",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "dx_diagnosis",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "slide",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "slide_path",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "cases_id",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "jar_num",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "block_nm",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "slide_nm",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "stain_type",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "stc_procedure",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "tumor_subtype",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "source",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "slide_machine",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "origin",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "birads4",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "breast_oncotype",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "breast_sln",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "glioma",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "lung",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "skin",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "skin_buttocks",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "tumor_morphology",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "stomach",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "sigmoid",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "new_lung",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "vasculitis",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "stomach",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "slide_id",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "fake_id",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "name": "vasculitis",
+      "columns": [
+        {
+          "name": "id",
+          "type": "int",
+          "pk": true
+        },
+        {
+          "name": "slide_id",
+          "type": "int",
+          "pk": false
+        },
+        {
+          "name": "IgA",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "IgG",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "IgM",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "C3",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "fibrinogen",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "classification",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "last_updated",
+          "type": "varchar",
+          "pk": false
+        },
+        {
+          "name": "created_on",
+          "type": "varchar",
+          "pk": false
+        }
+      ]
+    }
+  ],
+  "cachedAt": "2026-05-29T06:32:12.802Z"
+}

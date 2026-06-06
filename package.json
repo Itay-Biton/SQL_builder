@@ -1,0 +1,23 @@
+{
+  "name": "sql-builder",
+  "version": "1.0.0",
+  "description": "SQL Query Builder - Production Build",
+  "scripts": {
+    "prebuild": "node scripts/prebuild.js",
+    "build": "npm run prebuild && npm run build:server",
+    "build:server": "pkg SQL_Builder_Server/index.js --targets node18-win-x64 --output dist/sql-builder-server.exe --config package.json"
+  },
+  "pkg": {
+    "assets": [
+      "SQL_Builder_Server/public/**/*"
+    ],
+    "targets": [
+      "node18-win-x64"
+    ],
+    "outputPath": "dist"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.1"
+  },
+  "private": true
+}

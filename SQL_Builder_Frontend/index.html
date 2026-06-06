@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visual SQL Query Builder</title>
+    <style>
+      html,
+      body,
+      #root {
+        height: 100%;
+        margin: 0;
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          Arial;
+      }
+
+      /* Prevent the page itself from scrolling; panels handle scroll */
+      body {
+        overflow: hidden;
+      }
+
+      .app-shell {
+        display: grid;
+        grid-template-rows: 56px 1fr 280px;
+        height: 100%;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 16px;
+        background: #ffffff;
+        color: #0f1724;
+        border-bottom: 1px solid #e6eef8;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+      }
+      .main {
+        display: grid;
+        grid-template-columns: 320px 1fr 380px;
+        gap: 2px;
+        padding: 16px;
+        padding-bottom: 2px;
+        background: #f6f8fa;
+        color: #0f1724;
+        min-height: 0; /* allow children with overflow to be constrained */
+      }
+      .resizer-vertical {
+        width: 8px;
+        cursor: col-resize;
+        background: transparent;
+        border-radius: 4px;
+      }
+      .horizontal-resizer {
+        height: 8px;
+        cursor: row-resize;
+        background: #f6f8fa;
+        position: relative; /* keep above results */
+        z-index: 3;
+      }
+      .sidebar {
+        background: #ffffff;
+        padding: 12px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #e6eef8;
+        display: flex;
+        flex-direction: column;
+        min-height: 0; /* allow internal flex children to scroll */
+      }
+
+      /* Schema explorer: allow the table list to scroll independently */
+      .sidebar .schema-explorer {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        min-height: 0;
+      }
+
+      .sidebar .schema-explorer .schema-list {
+        overflow: auto;
+        flex: 1 1 auto;
+        min-height: 0;
+        max-height: 100%;
+        padding-right: 6px; /* give small gutter for scrollbar */
+      }
+      .canvas {
+        background: #ffffff;
+        padding: 12px;
+        border-radius: 8px;
+        position: relative;
+        min-height: 0; /* allow canvas to shrink when results expand */
+        border: 1px solid #e6eef8;
+      }
+      .preview {
+        background: #ffffff;
+        padding: 12px;
+        border-radius: 8px;
+        font-family: monospace;
+        font-size: 13px;
+        border: 1px solid #e6eef8;
+      }
+      .results {
+        background: #fafafa;
+        padding: 12px;
+        border-top: 1px solid #e6eef8;
+        position: relative; /* enable stacking via z-index */
+        z-index: 1;
+      }
+
+      /* ensure main content sits beneath results when resizing */
+      .main {
+        position: relative;
+        z-index: 0;
+      }
+
+      /* Make results panel a vertical flex container so header/controls
+         stay fixed and only the results table area can scroll. */
+      .results {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+      .results > div {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        min-height: 0;
+      }
+      .table-item {
+        padding: 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        background: #f8fafc;
+        border: 1px solid #eef3f8;
+      }
+      .table-item:hover {
+        box-shadow: 0 2px 6px rgba(16, 24, 40, 0.06);
+      }
+      .node {
+        background: #ffffff;
+        padding: 10px;
+        border-radius: 8px;
+        margin: 8px;
+        color: #0f1724;
+        width: 260px;
+        border: 1px solid #eef3f8;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+      }
+      .columns {
+        margin-top: 8px;
+        max-height: 200px;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
