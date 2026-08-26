@@ -4,17 +4,24 @@
   "description": "SQL Query Builder - Production Build",
   "scripts": {
     "prebuild": "node scripts/prebuild.js",
-    "build": "npm run prebuild && npm run build:server",
-    "build:server": "pkg SQL_Builder_Server/index.js --targets node18-win-x64 --output dist/sql-builder-server.exe --config package.json"
+    "build": "npm run prebuild && npm run build:all",
+    "build:windows": "npm run prebuild && pkg SQL_Builder_Server/index.js --targets node18-win-x64 --output dist-windows/sql-builder-server.exe --config package.json",
+    "build:linux": "npm run prebuild && pkg SQL_Builder_Server/index.js --targets node18-linux-x64 --output dist-linux/sql-builder-server --config package.json",
+    "build:linux-arm64": "npm run prebuild && npm run build:linux-arm64-only",
+    "build:all": "npm run prebuild && npm run build:windows-only && npm run build:linux-only && npm run build:linux-arm64-only",
+    "build:windows-only": "pkg SQL_Builder_Server/index.js --targets node18-win-x64 --output dist-windows/sql-builder-server.exe --config package.json",
+    "build:linux-only": "pkg SQL_Builder_Server/index.js --targets node18-linux-x64 --output dist-linux/sql-builder-server --config package.json",
+    "build:linux-arm64-only": "pkg SQL_Builder_Server/index.js --targets node18-linux-arm64 --output dist-linux-arm64/sql-builder-server --config package.json && node scripts/stage-linux-arm64.js"
   },
   "pkg": {
     "assets": [
       "SQL_Builder_Server/public/**/*"
     ],
     "targets": [
-      "node18-win-x64"
-    ],
-    "outputPath": "dist"
+      "node18-win-x64",
+      "node18-linux-x64",
+      "node18-linux-arm64"
+    ]
   },
   "devDependencies": {
     "pkg": "^5.8.1"
