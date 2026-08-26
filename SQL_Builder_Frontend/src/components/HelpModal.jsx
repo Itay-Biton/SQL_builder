@@ -218,8 +218,8 @@ export default function HelpModal({ open, onClose }) {
             </li>
             <li>
               <strong>Results tab</strong> — view rows in a scrollable table.
-              Use <strong>Save as XLSX</strong> to download results as an Excel
-              file. Server errors are shown in red.
+              Use <strong>Save as CSV</strong> or <strong>Save as XLSX</strong>{" "}
+              to download results. Server errors are shown in red.
             </li>
           </ul>
 

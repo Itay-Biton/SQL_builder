@@ -17,9 +17,14 @@ function normalizeSchema(sd) {
   if (Array.isArray(rawTables)) {
     out.tables = rawTables.map((t) => ({
       ...t,
-      columns: (t.columns || []).map((c) =>
-        typeof c === "string" ? { name: c, type: "string" } : c,
-      ),
+      columns: (t.columns || []).map((c) => {
+        const col =
+          typeof c === "string" ? { name: c, type: "string" } : { ...c };
+        return {
+          ...col,
+          isPrimaryKey: !!(col.isPrimaryKey || col.pk),
+        };
+      }),
     }));
     return out;
   }
@@ -28,9 +33,14 @@ function normalizeSchema(sd) {
   out.tables = Object.entries(rawTables).map(([tblName, def]) => {
     const cols = def.columns || [];
     const columns = Array.isArray(cols)
-      ? cols.map((c) =>
-          typeof c === "string" ? { name: c, type: "string" } : c,
-        )
+      ? cols.map((c) => {
+          const col =
+            typeof c === "string" ? { name: c, type: "string" } : { ...c };
+          return {
+            ...col,
+            isPrimaryKey: !!(col.isPrimaryKey || col.pk),
+          };
+        })
       : [];
     // spread the raw definition first, then override with normalized fields
     return {
@@ -631,6 +641,27 @@ export default function App() {
     }
   }
 
+  async function exportResults(format) {
+    if (!results || !results.length) return;
+    try {
+      await api.exportLog(format, results.length, query.name);
+    } catch (e) {
+      // don't block export on logging failure
+    }
+    const ws = XLSX.utils.json_to_sheet(results);
+    if (format === "csv") {
+      XLSX.writeFile(
+        { SheetNames: ["Results"], Sheets: { Results: ws } },
+        "query_results.csv",
+        { bookType: "csv" },
+      );
+    } else {
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Results");
+      XLSX.writeFile(wb, "query_results.xlsx");
+    }
+  }
+
   // --- Resize handlers ---
   function startVerticalResize(which, e) {
     e.preventDefault();
@@ -853,7 +884,9 @@ export default function App() {
             display: "flex",
             flexDirection: "column",
             minHeight: 0,
+            minWidth: 0,
             position: "relative",
+            overflow: "hidden",
           }}
         >
           <div
@@ -926,6 +959,7 @@ export default function App() {
               display: "flex",
               flexDirection: "column",
               height: `${bottomPanelHeight}px`,
+              minWidth: 0,
               overflow: "hidden",
             }}
           >
@@ -933,8 +967,11 @@ export default function App() {
             <div
               style={{
                 display: "flex",
+                alignItems: "center",
                 borderBottom: "1px solid #ddd",
                 background: "#f9fafb",
+                flexShrink: 0,
+                minWidth: 0,
               }}
             >
               <button
@@ -968,6 +1005,34 @@ export default function App() {
               >
                 Results
               </button>
+              {activeTab === "results" && (
+                <div
+                  style={{
+                    marginLeft: "auto",
+                    display: "flex",
+                    gap: 8,
+                    padding: "4px 12px 4px 0",
+                    flexShrink: 0,
+                  }}
+                >
+                  <button
+                    onClick={() => exportResults("csv")}
+                    disabled={
+                      !results || results.length === 0 || resultsLoading
+                    }
+                  >
+                    Save as CSV
+                  </button>
+                  <button
+                    onClick={() => exportResults("xlsx")}
+                    disabled={
+                      !results || results.length === 0 || resultsLoading
+                    }
+                  >
+                    Save as XLSX
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Tab content */}
@@ -975,7 +1040,8 @@ export default function App() {
               style={{
                 flex: 1,
                 minHeight: 0,
-                overflowY: "auto",
+                minWidth: 0,
+                overflow: activeTab === "results" ? "hidden" : "auto",
                 display: "flex",
                 flexDirection: "column",
               }}
@@ -997,49 +1063,21 @@ export default function App() {
                   style={{
                     flex: 1,
                     minHeight: 0,
-                    overflowY: "auto",
+                    minWidth: 0,
+                    display: "flex",
+                    flexDirection: "column",
                     padding: 12,
+                    overflow: "hidden",
                   }}
                 >
                   <div
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginBottom: 12,
+                      flex: 1,
+                      minHeight: 0,
+                      minWidth: 0,
+                      overflow: "auto",
                     }}
                   >
-                    <strong>Results</strong>
-                    <div>
-                      <button
-                        onClick={() => {
-                          if (!results || !results.length) return;
-                          (async () => {
-                            try {
-                              await api.exportLog(
-                                "xlsx",
-                                results.length,
-                                query.name,
-                              );
-                            } catch (e) {
-                              // don't block export on logging failure
-                            }
-                            const ws = XLSX.utils.json_to_sheet(results);
-                            const wb = XLSX.utils.book_new();
-                            XLSX.utils.book_append_sheet(wb, ws, "Results");
-                            XLSX.writeFile(wb, "query_results.xlsx");
-                          })();
-                        }}
-                        disabled={
-                          !results || results.length === 0 || resultsLoading
-                        }
-                      >
-                        Save as XLSX
-                      </button>
-                    </div>
-                  </div>
-
-                  <div>
                     {resultsLoading && <div>Running...</div>}
                     {resultsError && (
                       <div style={{ color: "red" }}>
@@ -1057,71 +1095,63 @@ export default function App() {
                       )}
 
                     {results && results.length > 0 && (
-                      <div
+                      <table
                         style={{
-                          overflowX: "auto",
-                          WebkitOverflowScrolling: "touch",
-                          width: "100%",
+                          borderCollapse: "collapse",
+                          tableLayout: "fixed",
+                          minWidth: resultsTableWidth,
+                          width: "auto",
                         }}
                       >
-                        <table
-                          style={{
-                            borderCollapse: "collapse",
-                            tableLayout: "fixed",
-                            minWidth: resultsTableWidth,
-                            width: "auto",
-                          }}
-                        >
-                          <thead>
-                            <tr>
+                        <thead>
+                          <tr>
+                            {Object.keys(results[0]).map((k) => (
+                              <th
+                                key={k}
+                                style={{
+                                  border: "1px solid #ddd",
+                                  padding: 8,
+                                  background: "#f7fafc",
+                                  textAlign: "left",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  whiteSpace: "nowrap",
+                                  width: 160,
+                                  maxWidth: 240,
+                                }}
+                              >
+                                {k}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {results.map((r, i) => (
+                            <tr
+                              key={i}
+                              style={{
+                                background: i % 2 === 0 ? "#fff" : "#fbfdff",
+                              }}
+                            >
                               {Object.keys(results[0]).map((k) => (
-                                <th
+                                <td
                                   key={k}
                                   style={{
-                                    border: "1px solid #ddd",
+                                    border: "1px solid #eee",
                                     padding: 8,
-                                    background: "#f7fafc",
-                                    textAlign: "left",
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
                                     whiteSpace: "nowrap",
                                     width: 160,
-                                    maxWidth: 240,
                                   }}
                                 >
-                                  {k}
-                                </th>
+                                  {String(r[k])}
+                                </td>
                               ))}
                             </tr>
-                          </thead>
-                          <tbody>
-                            {results.map((r, i) => (
-                              <tr
-                                key={i}
-                                style={{
-                                  background: i % 2 === 0 ? "#fff" : "#fbfdff",
-                                }}
-                              >
-                                {Object.keys(results[0]).map((k) => (
-                                  <td
-                                    key={k}
-                                    style={{
-                                      border: "1px solid #eee",
-                                      padding: 8,
-                                      overflow: "hidden",
-                                      textOverflow: "ellipsis",
-                                      whiteSpace: "nowrap",
-                                      width: 160,
-                                    }}
-                                  >
-                                    {String(r[k])}
-                                  </td>
-                                ))}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
+                          ))}
+                        </tbody>
+                      </table>
                     )}
                   </div>
                 </div>
